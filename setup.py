@@ -42,6 +42,7 @@ setup(name='chromedriver',
       license='Apache License 2.0',
 
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
+      py_modules=['setupy_download_helper'],
       include_package_data=True,
       zip_safe=False,
       cmdclass={
