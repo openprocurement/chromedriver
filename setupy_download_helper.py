@@ -16,7 +16,8 @@ import platform
 
 here = os.path.dirname(os.path.abspath(__file__))
 
-CHROMEDRIVER_VERSION = '2.10'
+# setup.py replaces this value dynamically
+CHROMEDRIVER_VERSION = ''
 CHROMEDRIVER_URL_BASE = "http://chromedriver.storage.googleapis.com/%s/"
 if platform.system() == 'Linux':
     platform_version = '64' if platform.uname()[4] == 'x86_64' else '32'
