@@ -64,7 +64,7 @@ def download_ziped_resource(path, url, name, unzip=False):
         shutil.copyfileobj(RequestProgressWrapper(req), f)
         if unzip:
             f.file.seek(0)
-            zfile = zipfile.ZipFile(f.name)
+            zfile = zipfile.ZipFile(f)
             zfile.extractall(path)
             os.rename(os.path.join(path, zfile.namelist()[0]), full_path)
     sys.stdout.write("chromedriver downloaded and can be reached by following path '%s'. " % full_path)
