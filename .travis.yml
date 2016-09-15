@@ -1,0 +1,57 @@
+sudo: false
+
+language: python
+
+python:
+  - 2.6
+  - 2.7
+  - 3.2
+  - 3.3
+  - 3.4
+  - 3.5
+  - pypy
+  - pypy3
+
+script:
+  - python setup.py install --record filelist.txt
+  - $(python -c "from chromedriver import CHROMEDRV_PATH;
+    print(CHROMEDRV_PATH)") --version
+    && cat filelist.txt | xargs rm -rf
+    && rm -rf build/ dist/ filelist.txt
+
+  - python setup.py sdist
+  - pip install dist/chromedriver-*.tar.gz
+  - $(python -c "from chromedriver import CHROMEDRV_PATH;
+    print(CHROMEDRV_PATH)") --version
+    && pip uninstall -y chromedriver
+    && rm -rf build/ dist/
+
+  - python setup.py sdist --format zip
+  - pip install dist/chromedriver-*.zip
+  - $(python -c "from chromedriver import CHROMEDRV_PATH;
+    print(CHROMEDRV_PATH)") --version
+    && pip uninstall -y chromedriver
+    && rm -rf build/ dist/
+
+  - python setup.py bdist
+  - pip install dist/chromedriver-*.zip
+  - $(python -c "from chromedriver import CHROMEDRV_PATH;
+    print(CHROMEDRV_PATH)") --version
+    && pip uninstall -y chromedriver
+    && rm -rf build/ dist/
+
+  - python setup.py bdist_egg
+  - pip install dist/chromedriver-*.egg
+  - $(python -c "from chromedriver import CHROMEDRV_PATH;
+    print(CHROMEDRV_PATH)") --version
+    && pip uninstall -y chromedriver
+    && rm -rf build/ dist/
+
+    # `--plat-name` option needs to be present in order to force bdist_wheel
+    # build a platform-dependent wheel, because it thinks that this is
+    # a pure-Python package
+  - python setup.py bdist_wheel --plat_name $(python -c
+    'from distutils.util import get_platform; print(get_platform())')
+  - pip install dist/chromedriver-*.whl
+  - $(python -c "from chromedriver import CHROMEDRV_PATH;
+    print(CHROMEDRV_PATH)") --version
